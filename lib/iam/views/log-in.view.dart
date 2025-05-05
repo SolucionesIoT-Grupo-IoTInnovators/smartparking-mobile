@@ -132,13 +132,19 @@ class _LogInViewState extends State<LogInView> {
             children: [
               Container(
                 height: 120,
-                width: 120,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
+                width: 180,
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(12.0),
                   color: Colors.white,
                 ),
-                child: ClipOval(
-                  child: Icon(Icons.person, size: 80, color: Colors.blue[900]),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12.0),
+                  child: /*Icon(Icons.person, size: 80, color: Colors.blue[900]),*/
+                  Image.asset(
+                    'assets/images/smart_parking_logo.png',
+                    fit: BoxFit.fill,
+                  ),
                   /*child: Padding(
                     padding: const EdgeInsets.all(8.0),
                   ),*/
