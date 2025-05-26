@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smartparking_mobile_application/parking-management/components/parking-card.component.dart';
 import 'package:smartparking_mobile_application/parking-management/components/parking-map.component.dart';
 import '../services/auth.service.dart';
 
