@@ -142,8 +142,8 @@ class _LogInViewState extends State<LogInView> {
                   borderRadius: BorderRadius.circular(12.0),
                   child: /*Icon(Icons.person, size: 80, color: Colors.blue[900]),*/
                   Image.asset(
-                    'assets/images/smart_parking_logo.png',
-                    fit: BoxFit.fill,
+                    'assets/images/smartparking_logo.jpeg',
+                    fit: BoxFit.cover,
                   ),
                   /*child: Padding(
                     padding: const EdgeInsets.all(8.0),
