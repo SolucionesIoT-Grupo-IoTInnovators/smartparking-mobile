@@ -68,6 +68,7 @@ flutter:
     - assets/icons/custom-icon.png
     - assets/icons/parking_icon.png
     - assets/images/smart_parking_logo.png
+    - assets/images/smartparking_logo.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
