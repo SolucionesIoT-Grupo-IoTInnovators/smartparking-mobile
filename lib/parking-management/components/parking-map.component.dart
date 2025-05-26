@@ -132,7 +132,6 @@ class _ParkingMapState extends State<ParkingMap> {
     for (var parking in _parkingList) {
       final marker = mp.PointAnnotationOptions(
         geometry: mp.Point(coordinates: mp.Position(parking.lng, parking.lat)),
-        textField: parking.name,
         image: icon,
         iconSize: 2.0,
       );

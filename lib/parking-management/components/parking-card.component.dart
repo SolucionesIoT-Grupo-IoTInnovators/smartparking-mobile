@@ -4,7 +4,7 @@ import '../models/parking.entity.dart';
 class ParkingCard extends StatelessWidget {
   final Parking parking;
   final String defaultImageUrl =
-      'https://via.placeholder.com/400x180?text=Estacionamiento';
+      'https://via.placeholder.com/400x180?text=Parking';
 
   const ParkingCard({super.key, required this.parking});
 
@@ -14,151 +14,194 @@ class ParkingCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 4,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Parking Details Title
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: Text(
-                'Parking Details',
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-          // Divider
-          const Divider(height: 1, color: Colors.grey, thickness: 2),
-          // Parking image
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child:
-                parking.imageUrl?.isNotEmpty == true
-                    ? Image.network(
-                      parking.imageUrl!,
-                      height: 180,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      errorBuilder:
-                          (context, error, stackTrace) => _buildDefaultImage(),
-                    )
-                    : _buildDefaultImage(),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Parking name
-                Text(
-                  parking.name,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minWidth: MediaQuery.of(context).size.width,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Parking Details Title
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Center(
+                  child: Text(
+                    'Parking Details',
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 4),
-                // Parking address
-                Text(
-                  parking.address,
-                  style: const TextStyle(color: Colors.grey),
+              ),
+              // Divider
+              const Divider(height: 1, color: Colors.grey, thickness: 2),
+              // Parking image
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                child: AspectRatio(
+                  aspectRatio: 16/9,
+                  child: parking.imageUrl?.isNotEmpty == true
+                      ? Image.network(
+                    parking.imageUrl!,
+                    fit: BoxFit.cover,
+                    errorBuilder:
+                        (context, error, stackTrace) => _buildDefaultImage(),
+                  )
+                      : _buildDefaultImage(),
                 ),
-                const SizedBox(height: 8),
-                // Parking price and rating
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      '\$${parking.ratePerHour.toStringAsFixed(2)}/hr',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    // Parking name with favorite icon
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            parking.name,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.bookmark_border,
+                            color: Colors.blue[700],
+                            size: 28,
+                          ),
+                          onPressed: () {
+                            // Add to favorites functionality
+                          },
+                        ),
+                      ],
                     ),
+                    const SizedBox(height: 4),
+                    // Parking address with location icon
                     Row(
                       children: [
-                        const Icon(Icons.star, color: Colors.amber, size: 18),
+                        Icon(Icons.location_on, size: 18, color: Colors.grey),
                         const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            parking.address,
+                            style: const TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    // Parking price with money icon
+                    Row(
+                      children: [
+                        Icon(Icons.attach_money, size: 20, color: Colors.green[700]),
+                        const SizedBox(width: 4),
+                        Text(
+                          '\$${parking.ratePerHour.toStringAsFixed(2)}/hour',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    // Rating with stars
+                    Row(
+                      children: [
+                        ...List.generate(5, (index) {
+                          return Icon(
+                            index < parking.rating.floor() ? Icons.star : Icons.star_border,
+                            color: Colors.amber,
+                            size: 20,
+                          );
+                        }),
+                        const SizedBox(width: 8),
                         Text(
                           parking.rating.toStringAsFixed(1),
                           style: const TextStyle(fontSize: 16),
                         ),
                       ],
                     ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                // Available spots
-                Text(
-                  '${parking.availableSpots} spots available / ${parking.totalSpots} total',
-                  style: const TextStyle(color: Colors.black87),
-                ),
-                const ElevatedButton(
-                  onPressed: null,
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll<Color>(
-                      Colors.blue,
-                    ),
-                    shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                      ),
-                    ),
-                  ),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    const SizedBox(height: 8),
+                    // Available spots with parking icon
+                    Row(
                       children: [
+                        Icon(Icons.local_parking, size: 20, color: Colors.blue[700]),
+                        const SizedBox(width: 4),
                         Text(
-                          "See More",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(width: 8),
-                        Icon(
-                          Icons.arrow_forward_rounded,
-                          color: Colors.white,
-                          size: 20,
+                          '${parking.availableSpots} available / ${parking.totalSpots} total',
+                          style: const TextStyle(color: Colors.black87),
                         ),
                       ],
                     ),
-                  ),
+                    const SizedBox(height: 16),
+                    // See More button
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: null,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll<Color>(
+                            Colors.blue,
+                          ),
+                          shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(16)),
+                            ),
+                          ),
+                          padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 12)),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Reserve Now",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Icon(
+                              Icons.arrow_forward_rounded,
+                              color: Colors.white,
+                              size: 18,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
   Widget _buildDefaultImage() {
-    return Image.network(
-      defaultImageUrl,
-      height: 180,
-      width: double.infinity,
-      fit: BoxFit.cover,
-      errorBuilder: (context, error, stackTrace) {
-        return Container(
-          height: 180,
-          width: double.infinity,
-          color: Colors.grey[300],
-          child: const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.local_parking, size: 50, color: Colors.grey),
-              SizedBox(height: 8),
-              Text("No image available", style: TextStyle(color: Colors.grey)),
-            ],
-          ),
-        );
-      },
+    return Container(
+      color: Colors.grey[300],
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.local_parking, size: 50, color: Colors.grey),
+            const SizedBox(height: 8),
+            Text("No image available", style: TextStyle(color: Colors.grey)),
+          ],
+        ),
+      ),
     );
   }
 }
