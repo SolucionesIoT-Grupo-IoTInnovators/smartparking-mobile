@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartparking_mobile_application/reservations/views/reservation-view.dart';
 import '../models/parking.entity.dart';
 
 class ParkingCard extends StatelessWidget {
@@ -146,17 +147,24 @@ class ParkingCard extends StatelessWidget {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: null,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ParkingReservationPage(parking: parking),
+                            ),
+                          );
+                        },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll<Color>(
+                          backgroundColor: const MaterialStatePropertyAll<Color>(
                             Colors.blue,
                           ),
-                          shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+                          shape: const MaterialStatePropertyAll<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(16)),
                             ),
                           ),
-                          padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 12)),
+                          padding: MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 12)),
                         ),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -171,7 +179,7 @@ class ParkingCard extends StatelessWidget {
                             ),
                             SizedBox(width: 8),
                             Icon(
-                              Icons.arrow_forward_rounded,
+                              Icons.calendar_today,
                               color: Colors.white,
                               size: 18,
                             ),
