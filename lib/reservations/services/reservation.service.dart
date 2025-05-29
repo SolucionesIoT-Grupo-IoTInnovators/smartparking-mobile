@@ -17,4 +17,23 @@ class ReservationService extends ApiClient {
       'Authorization': 'Bearer $token',
     };
   }
+
+  Future<Map<String, dynamic>> createReservationPayment(Map<String, dynamic> data, int reservationId) async {
+    final uri = Uri.parse('$baseUrl/payments/reservation/$reservationId');
+    final headers = await _getHeaders();
+
+    final response = await http.post(
+      uri,
+      headers: headers,
+      body: utf8.encode(json.encode(data)),
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return json.decode(
+        utf8.decode(response.bodyBytes),
+      );
+    } else {
+      throw Exception('Error posting data: ${response.reasonPhrase}');
+    }
+  }
 }
