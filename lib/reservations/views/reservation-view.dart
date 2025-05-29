@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartparking_mobile_application/reservations/views/reservation-payment.dart';
+import 'package:smartparking_mobile_application/shared/components/success-dialog.component.dart';
 import '../../parking-management/components/parking-spot-viewer.dart';
 import '../../parking-management/models/parking.entity.dart';
 import '../services/reservation.service.dart';
@@ -131,19 +133,33 @@ class _ParkingReservationPageState extends State<ParkingReservationPage> {
       'endTime': await _convertValueTimeTo24HourFormatAndString(_endTime),
     };
     try {
-      print(reservationData);
-      await _reservationService.post(reservationData);
+      final response = await _reservationService.post(reservationData);
+      if (response.containsKey('id')) {
+        SuccessDialog.show(
+          context: context,
+          message: 'Reservation successful!',
+          buttonLabel: 'Go to Payment',
+          icon: Icons.check_circle,
+          onClose: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ReservationPayment(
+                  userId: driverId ?? 0,
+                  reservationId: response['id'],
+                  amount: _calculateTotal(),
+                ),
+              ),
+            );
+          },
+        );
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error reserving spot: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error reserving spot: $e')));
       return;
     }
-
-
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Reservation successful!')));
   }
 
   @override
@@ -176,13 +192,14 @@ class _ParkingReservationPageState extends State<ParkingReservationPage> {
                     hintText: 'ABC-123',
                     border: OutlineInputBorder(),
                   ),
+                  maxLength: 7,
                   onChanged: (value) {
                     setState(() {
                       _vehiclePlate = value;
                     });
                   },
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 10),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -298,27 +315,64 @@ class _ParkingReservationPageState extends State<ParkingReservationPage> {
             ),
             const SizedBox(height: 10),
 
-            // Reserve button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _reserveSpot,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  backgroundColor: const Color(0xFF3B82F6),
-                  textStyle: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+            // Cancel and Reserve buttons
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.cancel, color: Colors.black87),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFE5E7EB),
+                      foregroundColor: Colors.black87,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      elevation: 0,
+                    ),
+                    label: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
-                child: const Text(
-                  'Reserve',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                const SizedBox(width: 16),
+                Expanded(
+                  flex: 2,
+                  child: ElevatedButton.icon(
+                    onPressed: _reserveSpot,
+                    icon: const Icon(
+                      Icons.check_circle,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF3B82F6),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      elevation: 2,
+                    ),
+                    label: const Text(
+                      'Reserve',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
           ],
         ),
