@@ -97,6 +97,24 @@ class _ParkingSpotViewerState extends State<ParkingSpotViewer> {
       widget.onSpotSelected(null);
       return;
     }
+    if (cell['status'] == 'OCCUPIED') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('This spot is occupied. Please select another spot.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+    if (cell['status'] == 'RESERVED') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('This spot is reserved. Please select another spot.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
 
     setState(() {
       _selectedSpot = cell;
