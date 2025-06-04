@@ -5,6 +5,7 @@ class Reservation {
   final String vehiclePlate;
   final int parkingId;
   final String parkingSpotId;
+  final String spotLabel;
   final String date;
   final String startTime;
   final String endTime;
@@ -18,6 +19,7 @@ class Reservation {
     required this.vehiclePlate,
     required this.parkingId,
     required this.parkingSpotId,
+    required this.spotLabel,
     required this.date,
     required this.startTime,
     required this.endTime,
@@ -33,6 +35,7 @@ class Reservation {
       vehiclePlate: json['vehiclePlate'] ?? '',
       parkingId: json['parkingId'] ?? 0,
       parkingSpotId: json['parkingSpotId'] ?? '',
+      spotLabel: json['spotLabel'] ?? '',
       date: json['date'] ?? '',
       startTime: json['startTime'] ?? '',
       endTime: json['endTime'] ?? '',
@@ -43,6 +46,6 @@ class Reservation {
 
   @override
   String toString() {
-    return 'Reservation(id: $id, driverFullName: $driverFullName, driverId: $driverId, vehiclePlate: $vehiclePlate, parkingId: $parkingId, parkingSpotId: $parkingSpotId, date: $date, startTime: $startTime, endTime: $endTime, totalPrice: $totalPrice, status: $status)';
+    return 'Reservation(id: $id, driverFullName: $driverFullName, driverId: $driverId, vehiclePlate: $vehiclePlate, parkingId: $parkingId, parkingSpotId: $parkingSpotId, spotLabel: $spotLabel, date: $date, startTime: $startTime, endTime: $endTime, totalPrice: $totalPrice, status: $status)';
   }
 }
