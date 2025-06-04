@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart' as gl;
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart' as mp;
 import 'package:smartparking_mobile_application/parking-management/components/parking-card.component.dart';
 import 'package:smartparking_mobile_application/parking-management/services/parking.service.dart';
+import 'package:smartparking_mobile_application/shared/components/navigator-bar.dart';
 import '../models/parking.entity.dart';
 
 class ParkingMap extends StatefulWidget {
@@ -23,6 +24,7 @@ class _ParkingMapState extends State<ParkingMap> {
   final ParkingService _parkingService = ParkingService();
   final List<Parking> _parkingList = [];
   final Map<String, Parking> _annotationIdToParking = {};
+  int _selectedIndex = 0;
 
   bool _isMapReady = false;
   bool _isParkingDataReady = false;
@@ -37,6 +39,17 @@ class _ParkingMapState extends State<ParkingMap> {
   void dispose() {
     userLocationStream?.cancel();
     super.dispose();
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      if (index == 1) {
+        Navigator.pushReplacementNamed(context, '/reservations');
+      } else if (index == 2) {
+        Navigator.pushReplacementNamed(context, '/reservations');
+      }
+    });
   }
 
   Future<void> _initialize() async {
@@ -199,6 +212,10 @@ class _ParkingMapState extends State<ParkingMap> {
           ],
         ),
       ),
+      bottomNavigationBar: NavigatorBar(
+          selectedIndex: _selectedIndex,
+          onItemSelected: _onItemTapped,
+      )
     );
   }
 }
