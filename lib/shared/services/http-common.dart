@@ -59,4 +59,18 @@ class ApiClient {
       throw Exception('Error posting data: ${response.reasonPhrase}');
     }
   }
+
+  Future<Map<String, dynamic>> getById(int id) async {
+    final uri = Uri.parse('$baseUrl$resourceEndPoint/$id');
+    final headers = await _getHeaders();
+    final response = await http.get(uri, headers: headers);
+
+    if (response.statusCode == 200) {
+      return json.decode(utf8.decode(response.bodyBytes));
+    } else if (response.statusCode == 404) {
+      throw Exception('Resource not found');
+    } else {
+      throw Exception('Error fetching resource: ${response.reasonPhrase}');
+    }
+  }
 }
