@@ -2,67 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'package:smartparking_mobile_application/parking-management/components/parking-map.component.dart';
 import 'package:smartparking_mobile_application/reservations/views/reservation-payment.dart';
 import 'package:smartparking_mobile_application/reservations/views/reservations-screen.dart';
 import 'iam/views/log-in.view.dart';
 
-// Configura instancia de notificaciones locales
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
-
-// Inicializa notificaciones locales
-void setupFlutterNotifications() async {
-  const AndroidInitializationSettings initializationSettingsAndroid =
-  AndroidInitializationSettings('@mipmap/ic_launcher');
-
-  const InitializationSettings initializationSettings =
-  InitializationSettings(android: initializationSettingsAndroid);
-
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-}
-
-// Muestra notificación local al recibir push en primer plano
-void showFlutterNotification(RemoteMessage message) {
-  RemoteNotification? notification = message.notification;
-  AndroidNotification? android = message.notification?.android;
-  if (notification != null && android != null) {
-    flutterLocalNotificationsPlugin.show(
-      notification.hashCode,
-      notification.title,
-      notification.body,
-      const NotificationDetails(
-        android: AndroidNotificationDetails(
-          'default_channel',
-          'SmartParking Notifications',
-          importance: Importance.max,
-          priority: Priority.high,
-        ),
-      ),
-    );
-  }
-}
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Requerido para async
+  WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await Firebase.initializeApp();
 
-  // 🔔 Inicializa notificaciones locales
-  setupFlutterNotifications();
-
-  // 🔓 Solicita permiso de notificaciones
+  // Solicita permisos de notificación (Android 13+)
   NotificationSettings settings = await FirebaseMessaging.instance.requestPermission();
-  print('🔔 Permiso de notificación: ${settings.authorizationStatus}');
+  print('Permiso de notificación: ${settings.authorizationStatus}');
 
-  // 🔐 Obtén token de notificación
+  // Obtiene el token FCM
   String? token = await FirebaseMessaging.instance.getToken();
-  print('✅ FCM Token: $token');
+  print('FCM Token: $token');
 
-  // 🔔 Escucha mensajes en primer plano
-  FirebaseMessaging.onMessage.listen(showFlutterNotification);
+  // Maneja notificaciones en primer plano
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    final title = message.notification?.title ?? 'Sin título';
+    final body = message.notification?.body ?? 'Sin contenido';
+
+    // Aquí puedes guardar la notificación en tu clase NotificationStore
+    // NotificationStore.add(title, body);
+
+    // Mostrar mensaje breve
+    if (navigatorKey.currentState?.overlay?.context != null) {
+      ScaffoldMessenger.of(navigatorKey.currentState!.overlay!.context).showSnackBar(
+        SnackBar(
+          content: Text("$title\n$body"),
+          duration: Duration(seconds: 3),
+        ),
+      );
+    }
+  });
 
   runApp(const MyApp());
 }
@@ -73,6 +51,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       initialRoute: '/login',
       routes: {
         '/login': (context) => LogInView(),
