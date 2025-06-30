@@ -8,6 +8,7 @@ import 'package:smartparking_mobile_application/profile-management/pages/driver_
 import 'package:smartparking_mobile_application/reservations/views/reservation-payment.dart';
 import 'package:smartparking_mobile_application/reservations/views/reservations-screen.dart';
 import 'iam/views/log-in.view.dart';
+import 'iam/views/sign-up-driver.view.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/login': (context) => LogInView(),
+        '/signup-driver': (context) => SignUpDriverView(),
         '/home': (context) => ParkingMap(),
         '/reservation-payment': (context) {
           final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
