@@ -17,23 +17,17 @@ void main() async {
   await dotenv.load(fileName: ".env");
   await Firebase.initializeApp();
 
-  // Solicita permisos de notificación (Android 13+)
   NotificationSettings settings = await FirebaseMessaging.instance.requestPermission();
   print('Permiso de notificación: ${settings.authorizationStatus}');
 
-  // Obtiene el token FCM
   String? token = await FirebaseMessaging.instance.getToken();
   print('FCM Token: $token');
 
-  // Maneja notificaciones en primer plano
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     final title = message.notification?.title ?? 'Sin título';
     final body = message.notification?.body ?? 'Sin contenido';
 
-    // Aquí puedes guardar la notificación en tu clase NotificationStore
-    // NotificationStore.add(title, body);
 
-    // Mostrar mensaje breve
     if (navigatorKey.currentState?.overlay?.context != null) {
       ScaffoldMessenger.of(navigatorKey.currentState!.overlay!.context).showSnackBar(
         SnackBar(
