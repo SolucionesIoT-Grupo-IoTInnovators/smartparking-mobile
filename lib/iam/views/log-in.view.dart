@@ -97,16 +97,16 @@ class _LogInViewState extends State<LogInView> {
       obscureText: obscureText,
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle: const TextStyle(color: Colors.black),
+        labelStyle: const TextStyle(color: Color(0xFF1D4ED8)),
         prefixIcon:
-            prefixIcon != null ? Icon(prefixIcon, color: Colors.black) : null,
+            prefixIcon != null ? Icon(prefixIcon, color: const Color(0xFF3B82F6)) : null,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.black),
+          borderSide: const BorderSide(color: Color(0xFF3B82F6)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.blueGrey, width: 2.0),
+          borderSide: const BorderSide(color: Color(0xFF1D4ED8), width: 2.0),
         ),
         filled: true,
         fillColor: Colors.white,
@@ -115,38 +115,44 @@ class _LogInViewState extends State<LogInView> {
           horizontal: 12.0,
         ),
       ),
-      style: const TextStyle(color: Colors.black),
+      style: const TextStyle(color: Colors.black87),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF60A5FA),
+      backgroundColor: const Color(0xFF3B82F6),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40.0),
-          child: Column(
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
+            child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 120,
-                width: 180,
+                height: 130,
+                width: 190,
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(12.0),
+                  borderRadius: BorderRadius.circular(16.0),
                   color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 1,
+                      blurRadius: 8,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12.0),
-                  child: /*Icon(Icons.person, size: 80, color: Colors.blue[900]),*/
-                  Image.asset(
+                  borderRadius: BorderRadius.circular(16.0),
+                  child: Image.asset(
                     'assets/images/smartparking_logo.jpeg',
                     fit: BoxFit.cover,
                   ),
-                  /*child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                  ),*/
                 ),
               ),
               const SizedBox(height: 30),
@@ -174,29 +180,49 @@ class _LogInViewState extends State<LogInView> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
+                  elevation: 4,
+                  shadowColor: Colors.black.withOpacity(0.3),
                 ),
                 child: const Text(
                   'Sign In',
-                  style: TextStyle(fontSize: 16, color: Colors.white),
+                  style: TextStyle(
+                    fontSize: 16, 
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
               Text(
                 _responseMessage,
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/signup-driver');
+                },
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                ),
                 child: const Text(
-                  'Forgot Password?',
-                  style: TextStyle(color: Colors.white),
+                  'Don\'t have an account? Sign Up',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
               ),
             ],
           ),
         ),
+      ),
       ),
     );
   }

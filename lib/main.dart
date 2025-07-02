@@ -4,9 +4,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:smartparking_mobile_application/parking-management/components/parking-map.component.dart';
+import 'package:smartparking_mobile_application/profile-management/pages/driver_details_page.dart';
 import 'package:smartparking_mobile_application/reservations/views/reservation-payment.dart';
 import 'package:smartparking_mobile_application/reservations/views/reservations-screen.dart';
 import 'iam/views/log-in.view.dart';
+import 'iam/views/sign-up-driver.view.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -49,6 +51,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/login': (context) => LogInView(),
+        '/signup-driver': (context) => SignUpDriverView(),
         '/home': (context) => ParkingMap(),
         '/reservation-payment': (context) {
           final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
@@ -59,6 +62,7 @@ class MyApp extends StatelessWidget {
           );
         },
         '/reservations': (context) => ReservationsScreen(),
+        '/profile': (context) => DriverDetailsPage()
       },
       title: 'SmartParking App',
       theme: ThemeData(
