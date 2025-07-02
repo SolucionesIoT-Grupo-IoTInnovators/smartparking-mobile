@@ -141,13 +141,14 @@ class _DriverDetailsPageState extends State<DriverDetailsPage> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
+                            Navigator.pushNamed(context, '/login');
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,
                             padding: const EdgeInsets.symmetric(vertical: 15),
                           ),
                           child: const Text(
-                            'Edit Profile',
+                            'Log Out',
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.white,
