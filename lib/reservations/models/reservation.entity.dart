@@ -10,7 +10,7 @@ class Reservation {
   final String startTime;
   final String endTime;
   final double totalPrice;
-  final String status;
+  late final String status;
 
   Reservation({
     required this.id,

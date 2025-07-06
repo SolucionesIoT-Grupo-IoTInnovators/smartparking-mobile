@@ -52,4 +52,17 @@ class ReservationService extends ApiClient {
       throw Exception('Error loading data: ${response.reasonPhrase}');
     }
   }
+
+  Future<Reservation> updateReservationStatus(int reservationId, String status) async {
+    final uri = Uri.parse('$baseUrl$resourceEndPoint/$reservationId?status=$status');
+    final headers = await _getHeaders();
+
+    final response = await http.patch(uri, headers: headers);
+
+    if (response.statusCode == 200) {
+      return Reservation.fromJson(json.decode(utf8.decode(response.bodyBytes)));
+    } else {
+      throw Exception('Error updating reservation status: ${response.reasonPhrase}');
+    }
+  }
 }

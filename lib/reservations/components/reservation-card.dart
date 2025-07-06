@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smartparking_mobile_application/parking-management/services/parking.service.dart';
 
 import '../models/reservation.entity.dart';
+import '../services/reservation.service.dart';
 
 class ReservationCard extends StatefulWidget {
   final Reservation reservation;
@@ -17,11 +18,39 @@ class _ReservationCardState extends State<ReservationCard> {
   String parkingName = '';
   String parkingImageUrl = '';
   bool isLoading = true;
+  final ReservationService _reservationService = ReservationService();
+
 
   @override
   void initState() {
     super.initState();
     _loadParkingDetails();
+  }
+
+  Future<void> _updateReservationStatus(String status) async {
+    try {
+      var result = await _reservationService.updateReservationStatus(
+        widget.reservation.id,
+        status,
+      );
+      setState(() {
+        widget.reservation.status = status;
+      });
+      if (status.contains('id')) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Reservation status updated to $status')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to update reservation status')),
+        );
+      }
+    } catch (e) {
+      // Handle error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error updating reservation status: $e')),
+      );
+    }
   }
 
   Future<void> _loadParkingDetails() async {
@@ -183,7 +212,7 @@ class _ReservationCardState extends State<ReservationCard> {
                         flex: 1,
                         child: OutlinedButton(
                           onPressed: () {
-                            // Cancel action
+                            _updateReservationStatus('CANCELED');
                           },
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.grey.shade700,
@@ -198,7 +227,7 @@ class _ReservationCardState extends State<ReservationCard> {
                         flex: 2,
                         child: ElevatedButton(
                           onPressed: () {
-                            // I'm here action
+                            _updateReservationStatus('CONFIRMED');
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,

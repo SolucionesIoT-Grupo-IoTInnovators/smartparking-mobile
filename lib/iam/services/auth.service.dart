@@ -1,13 +1,15 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import '../../config.dart';
 
 class AuthService {
-  final String baseUrl = BASE_URL;
+  final String baseUrl = dotenv.env['BASE_URL'] ?? 'http://10.0.2.2:8001/api/v1';
   final String resourceEndPoint = '/authentication';
 
   Future<Map<String, dynamic>> logIn(String email, String password) async {
+  print("Base URL: $baseUrl");
     final uri = Uri.parse('$baseUrl$resourceEndPoint/sign-in');
     final response = await http.post(
       uri,
