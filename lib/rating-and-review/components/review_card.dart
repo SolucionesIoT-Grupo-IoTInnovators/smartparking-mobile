@@ -32,7 +32,7 @@ class ReviewCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                _buildRatingStars(review.rating ?? 0),
+                _buildRatingStars(review.rating!.toInt()),
               ],
             ),
             const SizedBox(height: 8.0),

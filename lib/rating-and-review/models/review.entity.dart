@@ -5,7 +5,7 @@ class Review {
   final int? parkingId;
   final String? parkingName;
   final String? comment;
-  final int? rating;
+  final double? rating;
   final String? createdAt;
 
   Review({

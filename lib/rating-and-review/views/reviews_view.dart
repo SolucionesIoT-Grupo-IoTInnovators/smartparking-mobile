@@ -4,6 +4,7 @@ import '../../shared/components/navigator-bar.dart';
 import '../models/review.entity.dart';
 import '../services/review.service.dart';
 import '../components/review_list.dart';
+import '../components/create_review_form.dart';
 
 class ReviewsView extends StatefulWidget {
   final int? parkingId;
@@ -172,11 +173,29 @@ class _ReviewsViewState extends State<ReviewsView> {
                     );
                   },
                 ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _loadReviews,
-        tooltip: 'Refresh',
-        child: const Icon(Icons.refresh),
-      ),
+      floatingActionButton: widget.parkingId != null
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CreateReviewForm(
+                      parkingId: widget.parkingId!,
+                      parkingName: widget.title,
+                      onReviewCreated: _loadReviews,
+                    ),
+                  ),
+                );
+              },
+              tooltip: 'Create Review',
+              backgroundColor: Colors.blue,
+              child: const Icon(Icons.rate_review),
+            )
+          : FloatingActionButton(
+              onPressed: _loadReviews,
+              tooltip: 'Refresh',
+              child: const Icon(Icons.refresh),
+            ),
       bottomNavigationBar: NavigatorBar(
         selectedIndex: _selectedIndex,
         onItemSelected: _onItemTapped,
