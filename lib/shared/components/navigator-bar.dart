@@ -8,20 +8,24 @@ class NavigatorBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: selectedIndex,
-      onTap: onItemSelected,
-      items: [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Reservations'),
-        BottomNavigationBarItem(icon: Icon(Icons.star), label: 'My Reviews'),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: 'My Profile'),
-      ],
-      backgroundColor: Colors.blue.shade800,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.grey,
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
+    return Theme(
+      data: Theme.of(context).copyWith(
+        canvasColor: Color(0xFF3B82F6),
+      ),
+      child: BottomNavigationBar(
+        currentIndex: selectedIndex,
+        onTap: onItemSelected,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Reservations'),
+          BottomNavigationBarItem(icon: Icon(Icons.star), label: 'My Reviews'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'My Profile'),
+        ],
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+      ),
     );
   }
 }
