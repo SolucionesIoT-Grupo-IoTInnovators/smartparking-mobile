@@ -5,7 +5,7 @@ class Review {
   final int? parkingId;
   final String? parkingName;
   final String? comment;
-  final double? rating;
+  final double rating;
   final String? createdAt;
 
   Review({
@@ -15,7 +15,7 @@ class Review {
     this.parkingId,
     this.parkingName,
     this.comment,
-    this.rating,
+    required this.rating,
     this.createdAt,
   });
 
