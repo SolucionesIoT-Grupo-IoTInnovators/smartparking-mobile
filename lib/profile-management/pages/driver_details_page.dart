@@ -17,7 +17,7 @@ class _DriverDetailsPageState extends State<DriverDetailsPage> {
   Driver? _driver;
   bool _isLoading = true;
   String _errorMessage = '';
-  int _selectedIndex = 2;
+  int _selectedIndex = 3;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -26,6 +26,8 @@ class _DriverDetailsPageState extends State<DriverDetailsPage> {
         Navigator.pushReplacementNamed(context, '/home');
       } else if (index == 1) {
         Navigator.pushReplacementNamed(context, '/reservations');
+      } else if (index == 2) {
+        Navigator.pushReplacementNamed(context, '/reviews');
       }
     });
   }

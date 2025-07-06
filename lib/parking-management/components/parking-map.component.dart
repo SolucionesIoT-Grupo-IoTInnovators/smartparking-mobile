@@ -47,6 +47,8 @@ class _ParkingMapState extends State<ParkingMap> {
       if (index == 1) {
         Navigator.pushReplacementNamed(context, '/reservations');
       } else if (index == 2) {
+        Navigator.pushReplacementNamed(context, '/reviews');
+      } else if (index == 3) {
         Navigator.pushReplacementNamed(context, '/profile');
       }
     });

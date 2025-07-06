@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:smartparking_mobile_application/parking-management/components/parking-map.component.dart';
 import 'package:smartparking_mobile_application/profile-management/pages/driver_details_page.dart';
+import 'package:smartparking_mobile_application/rating-and-review/views/reviews_view.dart';
 import 'package:smartparking_mobile_application/reservations/views/reservation-payment.dart';
 import 'package:smartparking_mobile_application/reservations/views/reservations-screen.dart';
 import 'iam/views/log-in.view.dart';
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
           );
         },
         '/reservations': (context) => ReservationsScreen(),
+        '/reviews': (context) => ReviewsView(title: 'My Reviews'),
         '/profile': (context) => DriverDetailsPage()
       },
       title: 'SmartParking App',

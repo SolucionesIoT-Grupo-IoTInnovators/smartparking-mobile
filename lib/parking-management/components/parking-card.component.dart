@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartparking_mobile_application/reservations/views/reservation-view.dart';
+import '../../rating-and-review/views/reviews_view.dart';
 import '../models/parking.entity.dart';
 
 class ParkingCard extends StatelessWidget {
@@ -181,6 +182,54 @@ class ParkingCard extends StatelessWidget {
                             Icon(
                               Icons.calendar_today,
                               color: Colors.white,
+                              size: 18,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    // View Reviews button
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ReviewsView(
+                                parkingId: parking.id,
+                                title: "${parking.name} Reviews",
+                              ),
+                            ),
+                          );
+                        },
+                        style: ButtonStyle(
+                          side: MaterialStateProperty.all(
+                            BorderSide(color: Colors.blue.shade700),
+                          ),
+                          shape: const MaterialStatePropertyAll<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(16)),
+                            ),
+                          ),
+                          padding: MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 12)),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "View Reviews",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.blue.shade700,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Icon(
+                              Icons.star_rate,
+                              color: Colors.blue.shade700,
                               size: 18,
                             ),
                           ],

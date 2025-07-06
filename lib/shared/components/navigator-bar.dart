@@ -14,9 +14,10 @@ class NavigatorBar extends StatelessWidget {
       items: [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
         BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Reservations'),
+        BottomNavigationBarItem(icon: Icon(Icons.star), label: 'My Reviews'),
         BottomNavigationBarItem(icon: Icon(Icons.person), label: 'My Profile'),
       ],
-      backgroundColor: Color(0xFF3B82F6),
+      backgroundColor: Colors.blue.shade800,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.grey,
       showSelectedLabels: false,

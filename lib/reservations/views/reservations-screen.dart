@@ -52,6 +52,8 @@ class _ReservationsScreenState extends State<ReservationsScreen>
       if (index == 0) {
         Navigator.pushReplacementNamed(context, '/home');
       } else if (index == 2) {
+        Navigator.pushReplacementNamed(context, '/reviews');
+      } else if (index == 3) {
         Navigator.pushReplacementNamed(context, '/profile');
       }
     });
